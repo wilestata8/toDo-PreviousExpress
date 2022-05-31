@@ -3,7 +3,7 @@ document.querySelector('#endComplete').addEventListener('click', clearComplete)
 document.querySelector('.checked').addEventListener('click', checked)
 
 const input = document.querySelector('#task')
-const ul = document.querySelector('#list')
+const ul = document.querySelector('#toDo')
 const add = document.querySelector('#add')
 const amount = document.querySelector('#amount')
 
@@ -19,6 +19,7 @@ function checked(e) {
       })
   })
 }
+
 function submit(value, index) {
   console.log(value)
   console.log(index)
@@ -42,10 +43,12 @@ function clearAll() {
       headers: {
           'Content-Type': 'application/json'
       },
+
   }).then(function (response) {
       window.location.reload()
   })
 };
+
 function clearComplete() {
   fetch('clearCompleted', {
       method: 'delete',
