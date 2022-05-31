@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section id="container">
+      <header>
+          <h1 class="title">To Do List</h1>
+          <p>Fill out your to do list to keep track of your daily tasks</p>
+      </header>
+      <section id="items">
+          <form action="/tasks" method="POST">
+              <input id="task" type="text" placeholder="TASK" name="todoItem">
+              <button type="submit" id="add">Add</button>
+          </form>
+      </section>
+      <section id="itemHere">
+        <ul id="list"> 
+          <% for(var i=0; i<task.length; i++) {%>
+          <li class="list">
+            <span><%= task[i].item %></span>
+  
+            <input type="checkbox" class="checked" value = "<%= ta[i].done %>" name="<%= todos[i].item %>" id= "<%= i %>" >
+          </li>
+        <% } %>
+      </ul>
+  </section>
+  <section id="cleared">
+    <button id="endAll">Clear List</button>
+    <button id="endComplete">Clear Completed</button>
+</section>
+</section>
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
