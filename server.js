@@ -3,11 +3,12 @@ const app = express()
 const bodyParser = require('body-parser')
 const MongoClient = require('mongodb').MongoClient
 
-let db, collection;
-const url = "mongodb+srv://wilestata8:wilestata8@cluster1.a7x7t.mongodb.net/?retryWrites=true&w=majority";
-const dbName = "demo";
+var db, collection;
 
-app.listen(8000, () => {
+const url = "mongodb+srv://wilestata8:wilestata8@cluster1.a7x7t.mongodb.net/?retryWrites=true&w=majority";
+const dbName = "todo";
+
+app.listen(8100, () => {
   MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
       if(error) {
           throw error;
@@ -23,15 +24,15 @@ app.use(bodyParser.json())
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-  db.collection('task').find().toArray((err, result) => {
+  db.collection('tasks').find().toArray((err, result) => {
     if (err) return console.log(err)
-    res.render('index.ejs', {task: result})
+    res.render('index.ejs', {todos: result})
   })
 })
-app.post('/task', (req, res) => {
+app.post('/tasks', (req, res) => {
   console.log(req.body)
   console.log(req.body.todoItem)
-  db.collection('task').insertOne({item: req.body.todoItem, done:false}, (err, result) => {
+  db.collection('tasks').insertOne({item: req.body.todoItem, done:false}, (err, result) => {
     if (err) return console.log(err)
     console.log('saved to database')
     res.redirect('/')
@@ -39,7 +40,7 @@ app.post('/task', (req, res) => {
 })
 app.put('/done', (req, res) => {
   console.log(req.body.name)
-  db.collection('task')
+  db.collection('tasks')
   .findOneAndUpdate({item: req.body.todoItem}, {
     $set: {
       done: true
@@ -54,14 +55,13 @@ app.put('/done', (req, res) => {
 })
 
 app.delete('/clear', (req, res) => {
-  db.collection('task').deleteMany({}, (err, result) => {
+  db.collection('tasks').deleteMany({}, (err, result) => {
     if (err) return res.send(500, err)
     res.send('Message deleted!')
   })
 })
 app.delete('/clearCompleted', (req, res) => {
-
-  db.collection('messages').deleteMany({done: true}, (err, result) => {
+  db.collection('tasks').deleteMany({done: true}, (err, result) => {
     if (err) return res.send(500, err)
     res.send('Message deleted!')
   })
